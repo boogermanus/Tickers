@@ -1,12 +1,18 @@
-<div>
-  <label>Ticks</label><input type="number" [(ngModel)]="from"/>
-  <h1>{{ticks}}</h1>
-  <span>
-    <button (click)="start()" [disabled]="started">Start</button>
-    <select [(ngModel)]="mode">
-      <option value="U">Up</option>
-      <option value="D">Down</option>
-    </select>
-  </span>
-  <p *ngIf="done">Done!</p>
+<div class="row">
+  <div class="col-md-4">
+    <span><label class="label label-default">Ticks</label></span>
+    <span><input type="number" style="width:60px" max="1000"/></span>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-1"><h1>{{ticks}}</h1></div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+      <div class="btn-group">
+        <button class="btn btn-success btn-sm">Start</button>
+        <button class="btn btn-danger btn-sm">Stop</button>
+      </div>
+  </div>
 </div>
