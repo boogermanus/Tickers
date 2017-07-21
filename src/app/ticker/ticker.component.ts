@@ -3,7 +3,7 @@ import {Subscription} from 'rxjs';
 import { Observable } from 'rxjs/Rx';
 
 @Component({
-  selector: 'app-ticker',
+  selector: 'ticker',
   templateUrl: './ticker.component.html',
   styleUrls: ['./ticker.component.css']
 })
@@ -15,6 +15,7 @@ export class TickerComponent implements OnInit, OnDestroy {
   timerSubscription: Subscription;
   done:boolean = false;
   timer:Observable<number>;
+  started:boolean = false;
 
   ngOnInit() {
 
@@ -40,13 +41,15 @@ export class TickerComponent implements OnInit, OnDestroy {
       }
     }
 
-    if(finished) {
+    if(finished && !this.timerSubscription.closed) {
       this.timerSubscription.unsubscribe();
       this.done = true;
+      this.started = false;
     }
   }
 
   start() {
+    this.started = true;
     this.done = false;
     if(this.mode == "D")
       this.ticks = this.from + 1;
