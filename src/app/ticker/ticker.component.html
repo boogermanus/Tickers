@@ -1,4 +1,10 @@
 <div>
+  <label>Ticks</label><input type="number" [(ngModel)]="from"/>
   <h1>{{ticks}}</h1>
-  <p  *ngIf="(done)">Done!</p>
+  <button (click)="start()">Start</button>
+  <select [(ngModel)]="mode">
+    <option value="U">Up</option>
+    <option value="D">Down</option>
+  </select>
+  <p  *ngIf="done">Done!</p>
 </div>
