@@ -8,8 +8,8 @@ import { Observable } from 'rxjs/Rx';
   styleUrls: ['./ticker.component.css']
 })
 export class TickerComponent implements OnInit, OnDestroy {
-  mode: string = "D"; //count up
-  from: number;
+  @Input()mode: string = "D"; //count up
+  @Input()from: number;
   constructor() { }
   ticks:number = 0;
   timerSubscription: Subscription;
