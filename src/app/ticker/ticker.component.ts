@@ -29,34 +29,52 @@ export class TickerComponent implements OnInit, OnDestroy {
   updateTicks(pNumber:number) {
     let finished = false;
     if(this.mode == "U") {
-      this.ticks = pNumber
+      this.ticks++
       
       if(this.ticks == this.from)
         finished = true;
     }
-    else {
+    
+    if(this.mode == "D") {
       this.ticks--;
       if(this.ticks == 0) {
         finished = true;
       }
     }
 
-    if(finished && !this.timerSubscription.closed) {
-      this.timerSubscription.unsubscribe();
+    if(finished) {
+      this.unsuscribe()
       this.done = true;
       this.started = false;
     }
+
   }
 
   start() {
     this.started = true;
     this.done = false;
-    if(this.mode == "D")
-      this.ticks = this.from + 1;
+    if(this.mode == "D") {
 
+      if(this.ticks == 0)
+        this.ticks = this.from + 1;
+    }
+
+    if(this.mode == "U" && this.ticks == this.from)
+      this.ticks
     this.timer = Observable.timer(0, 1000);
     this.timerSubscription = this.timer.subscribe((t) => {
       this.updateTicks(t);
     })
+  }
+
+  stop() {
+    this.started = false;
+    this.done = false;
+    this.unsuscribe();
+  }
+
+  unsuscribe() {
+    if(!this.timerSubscription.closed)
+      this.timerSubscription.unsubscribe();
   }
 }

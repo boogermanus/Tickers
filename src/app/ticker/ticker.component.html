@@ -1,18 +1,29 @@
 <div class="row">
   <div class="col-md-4">
     <span><label class="label label-default">Ticks</label></span>
-    <span><input type="number" style="width:60px" max="1000"/></span>
+    <span><input type="number" style="width:60px" max="1000" [(ngModel)]="from"/></span>
   </div>
 </div>
 <div class="row">
   <div class="col-md-1"><h1>{{ticks}}</h1></div>
 </div>
-
+<div class="row">
+  <div class="col-md-4">
+    <span><label class="label label-default">Mode</label></span>
+    <select [(ngModel)]="mode">
+      <option value="U">Up</option>
+      <option value="D">Down</option>
+    </select>
 <div class="row">
   <div class="col-md-4">
       <div class="btn-group">
-        <button class="btn btn-success btn-sm">Start</button>
-        <button class="btn btn-danger btn-sm">Stop</button>
+        <button class="btn btn-success btn-sm" (click)="start()" [disabled]="started">Start</button>
+        <button class="btn btn-danger btn-sm" (click)="stop()" [disabled]="!started">Stop</button>
       </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-1">
+    <p style="color:blue" *ngIf="done">Done!</p>
   </div>
 </div>
