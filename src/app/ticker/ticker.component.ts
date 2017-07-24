@@ -12,6 +12,8 @@ export class TickerComponent implements OnInit, OnDestroy {
   @Input()from: number;
   constructor() { }
   ticks:number = 0;
+  minutes:number = 0;
+  seconds:number = 0;
   timerSubscription: Subscription;
   done:boolean = false;
   timer:Observable<number>;
@@ -41,6 +43,9 @@ export class TickerComponent implements OnInit, OnDestroy {
         finished = true;
       }
     }
+
+    this.minutes = Math.floor(this.ticks/60);
+    this.seconds = this.ticks % 60;
 
     if(finished) {
       this.unsuscribe()
