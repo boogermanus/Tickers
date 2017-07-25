@@ -12,8 +12,8 @@ export class TickerComponent implements OnInit, OnDestroy {
   @Input()from: number;
   constructor() { }
   ticks:number = 0;
-  minutes:number = 0;
-  seconds:number = 0;
+  minutes:string = "00";
+  seconds:string = "00";
   timerSubscription: Subscription;
   done:boolean = false;
   timer:Observable<number>;
@@ -32,7 +32,6 @@ export class TickerComponent implements OnInit, OnDestroy {
     let finished = false;
     if(this.mode == "U") {
       this.ticks++
-      
       if(this.ticks == this.from)
         finished = true;
     }
@@ -44,8 +43,8 @@ export class TickerComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.minutes = Math.floor(this.ticks/60);
-    this.seconds = this.ticks % 60;
+    this.minutes = this.formatNumber(Math.floor(this.ticks/60));
+    this.seconds = this.formatNumber(this.ticks % 60);
 
     if(finished) {
       this.unsuscribe()
@@ -59,13 +58,10 @@ export class TickerComponent implements OnInit, OnDestroy {
     this.started = true;
     this.done = false;
     if(this.mode == "D") {
-
       if(this.ticks == 0)
         this.ticks = this.from + 1;
     }
 
-    if(this.mode == "U" && this.ticks == this.from)
-      this.ticks
     this.timer = Observable.timer(0, 1000);
     this.timerSubscription = this.timer.subscribe((t) => {
       this.updateTicks(t);
@@ -78,8 +74,17 @@ export class TickerComponent implements OnInit, OnDestroy {
     this.unsuscribe();
   }
 
-  unsuscribe() {
+  private unsuscribe() {
     if(!this.timerSubscription.closed)
       this.timerSubscription.unsubscribe();
+  }
+  
+  private formatNumber(pNumber:number) {
+    if(pNumber < 10) {
+      return "0" + pNumber.toString();
+    }
+    else {
+      return pNumber.toString();
+    }
   }
 }
