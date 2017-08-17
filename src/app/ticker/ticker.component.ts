@@ -9,7 +9,7 @@ import { Observable } from 'rxjs/Rx';
 })
 export class TickerComponent implements OnInit, OnDestroy {
   @Input()mode: string = "D"; //count up
-  @Input()from: number;
+  @Input()from: number = 0;
   constructor() { }
   ticks:number = 0;
   minutes:string = "00";
