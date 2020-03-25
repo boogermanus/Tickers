@@ -80,6 +80,12 @@ export class TickerComponent implements OnInit, OnDestroy {
     this.unsuscribe();
   }
 
+  reset() {
+    this.ticks = 0;
+    this.minutes = '00';
+    this.seconds = '00';
+  }
+
   private unsuscribe() {
     if (!this.timerSubscription.closed) {
       this.timerSubscription.unsubscribe();
