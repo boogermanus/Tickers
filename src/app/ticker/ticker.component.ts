@@ -3,50 +3,55 @@ import {Subscription} from 'rxjs';
 import { Observable } from 'rxjs/Rx';
 
 @Component({
-  selector: 'ticker',
+  selector: 'app-ticker',
   templateUrl: './ticker.component.html',
   styleUrls: ['./ticker.component.css']
 })
 export class TickerComponent implements OnInit, OnDestroy {
-  @Input()mode: string = "D"; //count up
-  @Input()from: number = 0;
-  constructor() { }
-  ticks:number = 0;
-  minutes:string = "00";
-  seconds:string = "00";
+  static readonly UP = 'U';
+  static readonly DOWN = 'D';
+  ticks = 0;
+  minutes = '00';
+  seconds = '00';
   timerSubscription: Subscription;
-  done:boolean = false;
-  timer:Observable<number>;
-  started:boolean = false;
+  done = false;
+  timer: Observable<number>;
+  started = false;
+  @Input()mode = TickerComponent.DOWN;
+  @Input()from = 0;
+
+  constructor() { }
+
 
   ngOnInit() {
 
   }
 
   ngOnDestroy() {
-    if(!this.timerSubscription.closed)
+    if (!this.timerSubscription.closed) {
       this.timerSubscription.unsubscribe();
+    }
   }
 
-  updateTicks(pNumber:number) {
+  updateTicks(pNumber: number) {
     let finished = false;
-    if(this.mode == "U") {
+    if (this.mode === TickerComponent.UP) {
       this.ticks++
-      if(this.ticks == this.from)
+      if (this.ticks === this.from) {
         finished = true;
+      }
     }
-    
-    if(this.mode == "D") {
+    if (this.mode === TickerComponent.DOWN) {
       this.ticks--;
-      if(this.ticks == 0) {
+      if (this.ticks === 0) {
         finished = true;
       }
     }
 
-    this.minutes = this.formatNumber(Math.floor(this.ticks/60));
+    this.minutes = this.formatNumber(Math.floor(this.ticks / 60));
     this.seconds = this.formatNumber(this.ticks % 60);
 
-    if(finished) {
+    if (finished) {
       this.unsuscribe()
       this.done = true;
       this.started = false;
@@ -57,9 +62,10 @@ export class TickerComponent implements OnInit, OnDestroy {
   start() {
     this.started = true;
     this.done = false;
-    if(this.mode == "D") {
-      if(this.ticks == 0)
+    if (this.mode === TickerComponent.DOWN) {
+      if (this.ticks === 0) {
         this.ticks = this.from + 1;
+      }
     }
 
     this.timer = Observable.timer(0, 1000);
@@ -74,16 +80,22 @@ export class TickerComponent implements OnInit, OnDestroy {
     this.unsuscribe();
   }
 
-  private unsuscribe() {
-    if(!this.timerSubscription.closed)
-      this.timerSubscription.unsubscribe();
+  reset() {
+    this.ticks = 0;
+    this.minutes = '00';
+    this.seconds = '00';
   }
-  
-  private formatNumber(pNumber:number) {
-    if(pNumber < 10) {
-      return "0" + pNumber.toString();
+
+  private unsuscribe() {
+    if (!this.timerSubscription.closed) {
+      this.timerSubscription.unsubscribe();
     }
-    else {
+  }
+
+  private formatNumber(pNumber: number) {
+    if (pNumber < 10) {
+      return '0' + pNumber.toString();
+    } else {
       return pNumber.toString();
     }
   }
