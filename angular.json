@@ -109,7 +109,6 @@
       }
     }
   },
-  "defaultProject": "tickers",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
