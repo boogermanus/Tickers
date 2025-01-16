@@ -19,7 +19,7 @@
     "@angular/platform-browser": "^18.2.13",
     "@angular/platform-browser-dynamic": "^18.2.13",
     "@angular/router": "^18.2.13",
-    "bootstrap": "^4.4.1",
+    "bootstrap": "^5.0.0",
     "core-js": "^2.6.11",
     "rxjs": "^6.5.4",
     "rxjs-compat": "^6.5.4",
