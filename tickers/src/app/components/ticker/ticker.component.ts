@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,11 +28,30 @@ export class TickerComponent {
   public ticks: number = 1;
   public mode: string = 'D';
 
-  constructor(private readonly service: TickerService) {}
+  public get Minutes(): Signal<string> {
+    return this.service.Minutes;
+  }
 
-  public reset(): void  {
+  public get Seconds(): Signal<string> {
+    return this.service.Seconds;
+  }
+
+  constructor(private readonly service: TickerService) { }
+
+  public reset(): void {
     this.service.reset(1, TickerService.COUNT_DOWN);
     this.ticks = this.service.Ticks();
     this.mode = TickerService.COUNT_DOWN;
+  }
+
+  public start(): void {
+    if (this.service.Done()) {
+      this.service.reset(this.ticks, this.mode);
+    }
+    this.service.start();
+  }
+
+  public stop(): void {
+    this.service.stop();
   }
 }

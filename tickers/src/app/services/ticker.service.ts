@@ -17,7 +17,7 @@ export class TickerService {
   private timerSubscription: Subscription = new Subscription();
   private timer!: Observable<number>;
 
-  private done = signal(false);
+  private done = signal(true);
   public get Done(): Signal<boolean> {
     return this.done.asReadonly();
   }

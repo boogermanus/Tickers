@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TickerComponent } from './ticker.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations'
 import { TickerService } from '../../services/ticker.service';
+import { By } from '@angular/platform-browser';
 
 describe('TickerComponent', () => {
   let component: TickerComponent;
@@ -29,10 +30,9 @@ describe('TickerComponent', () => {
   });
 
   it('should have element card-title', () => {
-    const fixture = TestBed.createComponent(TickerComponent);
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('#card-title')?.textContent).toContain('Tickers');
+    const compiled = fixture.debugElement.query(By.css('#card-title'));
+    expect(compiled.nativeElement?.textContent).toContain('Tickers');
   });
 
   it('should have method reset()', () => {
@@ -57,5 +57,59 @@ describe('TickerComponent', () => {
     component.mode = 'U'
     component.reset();
     expect(component.mode).toEqual(TickerService.COUNT_DOWN);
+  });
+
+  it('should call reset when the reset button is clicked', () => {
+    spyOn(component, 'reset');
+    const button = fixture.debugElement.query(By.css('#resetButton'));
+    button.triggerEventHandler('click', null);
+
+    expect(component.reset).toHaveBeenCalled();
+  });
+
+  it('should have method start', () => {
+    expect(component.start).toBeDefined();
+  });
+
+  it('should call reset on start with correct arguments', () => {
+    component.ticks = 10;
+    component.mode = TickerService.COUNT_DOWN;
+
+    spyOn(service, "reset");
+
+    component.start();
+    expect(service.reset).toHaveBeenCalledWith(component.ticks, component.mode);
+  });
+
+  it('should call start on start', () => {
+    spyOn(service, "start");
+    component.start();
+    expect(service.start).toHaveBeenCalled();
+  });
+
+  it('should call start when the start button is clicked', () => {
+    spyOn(component, 'start');
+    const button = fixture.debugElement.query(By.css('#startButton'));
+    button.triggerEventHandler('click', null);
+
+    expect(component.start).toHaveBeenCalled();
+  });
+
+  it('should have method stop', () => {
+    expect(component.stop).toBeDefined();
+  });
+
+  it('should call stop on the service when stop is called', () => {
+    spyOn(service, 'stop');
+    component.stop();
+    expect(service.stop).toHaveBeenCalled();
+  });
+
+  it('should call stop when the stop button is clicked', () => {
+    spyOn(component, 'stop');
+    const button = fixture.debugElement.query(By.css('#stopButton'));
+    button.triggerEventHandler('click', null);
+
+    expect(component.stop).toHaveBeenCalled();
   });
 });
