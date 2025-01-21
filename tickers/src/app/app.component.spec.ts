@@ -24,6 +24,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('#ticker')).toBeTruthy
+    const ticker = compiled.querySelector('#ticker');
+    expect(ticker).toBeTruthy();
   });
 });

@@ -1,5 +1,5 @@
 import { Injectable, Signal, signal } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -45,9 +45,14 @@ export class TickerService {
   public start(): void {
     this.running.set(true);
     this.done.set(false);
+
+    this.timer = timer(0, 1000);
+    this.timerSubscription = this.timer.subscribe({
+      next: () => {this.updateTicks()}
+    })
   }
 
-  public config(ticks: number, mode: string): void {
+  public reset(ticks: number, mode: string): void {
 
     this.ticks.set(0);
     this.target = ticks;
@@ -56,6 +61,8 @@ export class TickerService {
       this.ticks.set(ticks);
       this.target = 0;
     }
+
+    this.mode = mode;
   }
 
   public stop(): void {
@@ -66,6 +73,40 @@ export class TickerService {
   private unsubscribe(): void {
     if(!this.timerSubscription.closed) {
       this.timerSubscription.unsubscribe();
+    }
+  }
+
+  private updateTicks(): void {
+    let finished = false;
+
+    if(this.mode === TickerService.COUNT_UP) {
+      this.ticks.update(value => value + 1);
+    }
+
+    if(this.mode === TickerService.COUNT_DOWN) {
+      this.ticks.update(value => value - 1);
+    }
+
+    this.minutes.set(this.formatNumber(Math.floor(this.ticks() / 60)));
+    this.seconds.set(this.formatNumber(this.ticks() % 60));
+
+    if(this.ticks() === this.target) {
+      finished = true;
+    }
+
+    if(finished) {
+      this.done.set(true);
+      this.running.set(false);
+      this.unsubscribe();
+    }
+  }
+
+  private formatNumber(number: number): string {
+    if(number < 10) {
+      return `0${number}`;
+    }
+    else {
+      return number.toString();
     }
   }
 }
