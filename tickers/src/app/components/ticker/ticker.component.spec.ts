@@ -112,4 +112,24 @@ describe('TickerComponent', () => {
 
     expect(component.stop).toHaveBeenCalled();
   });
+
+  it('should disable stop button',() => {
+    const button = fixture.debugElement.query(By.css('#stopButton'));
+    expect(button.nativeElement.disabled).toBeTrue();
+  });
+
+  it('should enable stop button on start', () => {
+    component.start();
+    expect(component.stopButtonDisabled).toBeFalse();
+  });
+
+  it('should enable start button',() => {
+    const button = fixture.debugElement.query(By.css('#startButton'));
+    expect(button.nativeElement.disabled).toBeFalse();
+  }); 
+  
+  it('should disable start button on start', () => {
+    component.start();
+    expect(component.startButtonDisabled).toBeTrue();
+  });
 });

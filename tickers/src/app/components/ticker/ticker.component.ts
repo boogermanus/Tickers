@@ -27,6 +27,8 @@ export class TickerComponent {
 
   public ticks: number = 1;
   public mode: string = 'D';
+  public stopButtonDisabled = true;
+  public startButtonDisabled = false;
 
   public get Minutes(): Signal<string> {
     return this.service.Minutes;
@@ -49,6 +51,8 @@ export class TickerComponent {
       this.service.reset(this.ticks, this.mode);
     }
     this.service.start();
+    this.stopButtonDisabled = false;
+    this.startButtonDisabled = true;
   }
 
   public stop(): void {
