@@ -10,7 +10,7 @@ describe('TickerComponent', () => {
     await TestBed.configureTestingModule({
       imports: [TickerComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(TickerComponent);
     component = fixture.componentInstance;
@@ -22,9 +22,9 @@ describe('TickerComponent', () => {
   });
 
   it('should have element card-title', () => {
-        const fixture = TestBed.createComponent(TickerComponent);
-        fixture.detectChanges();
-        const compiled = fixture.nativeElement as HTMLElement;
-        expect(compiled.querySelector('#card-title')?.textContent).toContain('Tickers');
+    const fixture = TestBed.createComponent(TickerComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('#card-title')?.textContent).toContain('Tickers');
   })
 });
