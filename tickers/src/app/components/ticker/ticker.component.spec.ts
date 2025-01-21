@@ -21,7 +21,7 @@ describe('TickerComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have element card', () => {
+  it('should have element card-title', () => {
         const fixture = TestBed.createComponent(TickerComponent);
         fixture.detectChanges();
         const compiled = fixture.nativeElement as HTMLElement;
