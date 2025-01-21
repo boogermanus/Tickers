@@ -1,0 +1,34 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title id="card-title">Tickers</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="row mt-2">
+            <mat-form-field>
+                <mat-label>Ticks</mat-label>
+                <input matInput type="number" min="1" max="1000" [(ngModel)]="ticks">
+            </mat-form-field>
+        </div>
+        <div class="row mt-2">
+            <mat-form-field>
+                <mat-label>Count</mat-label>
+                <mat-select [(ngModel)]="mode">
+                    <mat-option value="U">Up</mat-option>
+                    <mat-option value="D">Down</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="d-flex justify-content-around mt-2">
+            <button id="startButton" mat-icon-button (click)="start()" [disabled]="startButtonDisabled">
+                <mat-icon>play_arrow</mat-icon>
+            </button>
+            <button id="stopButton" mat-icon-button (click)="stop()" [disabled]="stopButtonDisabled">
+                <mat-icon>stop</mat-icon>
+            </button>
+            <button id="resetButton" mat-icon-button (click)="reset()"><mat-icon>restart_alt</mat-icon></button>
+        </div>
+        <div class="d-flex justify-content-center">
+            <h1>{{Minutes()}}:{{Seconds()}}</h1>
+        </div>
+    </mat-card-content>
+</mat-card>
