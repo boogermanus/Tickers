@@ -37,6 +37,11 @@ export class TickerService {
     return this.seconds.asReadonly();
   }
 
+  private showDone = signal(false);
+  public get ShowDone(): Signal<boolean> {
+    return this.showDone.asReadonly();
+  }
+
   private mode!: string;
   private target!: number;
 
@@ -54,6 +59,7 @@ export class TickerService {
 
   public reset(ticks: number, mode: string): void {
 
+    this.showDone.set(false);
     this.ticks.set(0);
     this.target = ticks;
 
@@ -97,6 +103,7 @@ export class TickerService {
     if(finished) {
       this.done.set(true);
       this.running.set(false);
+      this.showDone.set(true);
       this.unsubscribe();
     }
   }

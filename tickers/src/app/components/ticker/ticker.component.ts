@@ -1,4 +1,4 @@
-import { Component, Signal } from '@angular/core';
+import { Component, effect, Signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { TickerService } from '../../services/ticker.service';
 
 @Component({
@@ -18,6 +19,7 @@ import { TickerService } from '../../services/ticker.service';
     MatSelectModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule,
     FormsModule
   ],
   templateUrl: './ticker.component.html',
@@ -38,12 +40,25 @@ export class TickerComponent {
     return this.service.Seconds;
   }
 
-  constructor(private readonly service: TickerService) { }
+  public get ShowDone(): Signal<boolean> {
+    return this.service.ShowDone;
+  }
+
+  constructor(private readonly service: TickerService) {
+    effect(() => {
+      if(this.ShowDone()) {
+        this.stopButtonDisabled = true;
+        this.startButtonDisabled = false;
+      }
+    })
+  }
 
   public reset(): void {
     this.service.reset(1, TickerService.COUNT_DOWN);
     this.ticks = this.service.Ticks();
     this.mode = TickerService.COUNT_DOWN;
+    this.startButtonDisabled = false;
+    this.stopButtonDisabled = true;
   }
 
   public start(): void {
