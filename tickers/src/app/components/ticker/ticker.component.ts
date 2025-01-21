@@ -32,5 +32,7 @@ export class TickerComponent {
 
   public reset(): void  {
     this.service.reset(1, TickerService.COUNT_DOWN);
+    this.ticks = this.service.Ticks();
+    this.mode = TickerService.COUNT_DOWN;
   }
 }

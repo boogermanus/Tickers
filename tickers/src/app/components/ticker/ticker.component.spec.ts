@@ -45,5 +45,17 @@ describe('TickerComponent', () => {
     component.reset();
 
     expect(service.reset).toHaveBeenCalled();
-  })
+  });
+
+  it('should set ticks to service ticks', () => {
+    component.ticks = 10;
+    component.reset();
+    expect(component.ticks).toEqual(service.Ticks());
+  });
+
+  it('should set mode to service mode', () => {
+    component.mode = 'U'
+    component.reset();
+    expect(component.mode).toEqual(TickerService.COUNT_DOWN);
+  });
 });
