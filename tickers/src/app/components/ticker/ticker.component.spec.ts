@@ -132,4 +132,15 @@ describe('TickerComponent', () => {
     component.start();
     expect(component.startButtonDisabled).toBeTrue();
   });
+
+  it('should disable start button on stop', () => {
+    component.start();
+    component.stop();
+    expect(component.startButtonDisabled).toBeFalse();
+  });
+
+  it('should enable start button on stop', () => {
+    component.stop();
+    expect(component.startButtonDisabled).toBeFalse();
+  });
 });

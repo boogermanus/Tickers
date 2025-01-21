@@ -57,5 +57,7 @@ export class TickerComponent {
 
   public stop(): void {
     this.service.stop();
+    this.startButtonDisabled = false;
+    this.stopButtonDisabled = true;
   }
 }
