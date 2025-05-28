@@ -6,13 +6,13 @@
         <div class="row mt-2">
             <mat-form-field>
                 <mat-label>Ticks</mat-label>
-                <input matInput type="number" min="1" max="1000" [(ngModel)]="ticks">
+                <input matInput type="number" min="1" max="1000" [(ngModel)]="ticks" (ngModelChange)="valueToggle()">
             </mat-form-field>
         </div>
         <div class="row mt-2">
             <mat-form-field>
                 <mat-label>Count</mat-label>
-                <mat-select [(ngModel)]="mode">
+                <mat-select [(ngModel)]="mode" (ngModelChange)="valueToggle()">
                     <mat-option value="D">Down</mat-option>
                     <mat-option value="U">Up</mat-option>
                 </mat-select>

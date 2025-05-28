@@ -1,13 +1,13 @@
-import { Component, effect, Signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { TickerService } from '../../services/ticker.service';
+import {Component, effect, Signal} from '@angular/core';
+import {FormsModule} from '@angular/forms';
+import {MatCardModule} from '@angular/material/card';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select';
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {TickerService} from '../../services/ticker.service';
 
 @Component({
   selector: 'app-ticker',
@@ -46,19 +46,19 @@ export class TickerComponent {
 
   constructor(private readonly service: TickerService) {
     effect(() => {
-      if(this.ShowDone()) {
+      if (this.ShowDone()) {
+        this.toggleButtonState(true);
         this.stopButtonDisabled = true;
-        this.startButtonDisabled = false;
       }
     })
+    this.service.reset(this.ticks, this.mode);
   }
 
   public reset(): void {
     this.service.reset(1, TickerService.COUNT_DOWN);
-    this.ticks = this.service.Ticks();
+    this.ticks = 1;
     this.mode = TickerService.COUNT_DOWN;
-    this.startButtonDisabled = false;
-    this.stopButtonDisabled = true;
+    this.toggleButtonState(false);
   }
 
   public start(): void {
@@ -66,13 +66,21 @@ export class TickerComponent {
       this.service.reset(this.ticks, this.mode);
     }
     this.service.start();
-    this.stopButtonDisabled = false;
-    this.startButtonDisabled = true;
+    this.toggleButtonState(true);
   }
 
   public stop(): void {
     this.service.stop();
-    this.startButtonDisabled = false;
-    this.stopButtonDisabled = true;
+    this.toggleButtonState(false)
+  }
+
+  private toggleButtonState(state: boolean): void {
+    this.startButtonDisabled = state;
+    this.stopButtonDisabled = !state;
+  }
+
+  public valueToggle(): void {
+    this.startButtonDisabled = this.ticks <= 0;
+    this.service.reset(this.ticks, this.mode);
   }
 }

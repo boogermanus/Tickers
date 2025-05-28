@@ -21,7 +21,7 @@ export class TickerService {
   public get Done(): Signal<boolean> {
     return this.done.asReadonly();
   }
-  
+
   private running = signal(false);
   public get Running(): Signal<boolean> {
     return this.running.asReadonly();
@@ -67,6 +67,7 @@ export class TickerService {
       this.ticks.set(ticks);
       this.target = 0;
     }
+    this.setMinutesAndSeconds()
 
     this.mode = mode;
   }
@@ -93,8 +94,7 @@ export class TickerService {
       this.ticks.update(value => value - 1);
     }
 
-    this.minutes.set(this.formatNumber(Math.floor(this.ticks() / 60)));
-    this.seconds.set(this.formatNumber(this.ticks() % 60));
+    this.setMinutesAndSeconds();
 
     if(this.ticks() === this.target) {
       finished = true;
@@ -115,5 +115,10 @@ export class TickerService {
     else {
       return number.toString();
     }
+  }
+
+  private setMinutesAndSeconds(): void {
+    this.minutes.set(this.formatNumber(Math.floor(this.ticks() / 60)));
+    this.seconds.set(this.formatNumber(this.ticks() % 60));
   }
 }
