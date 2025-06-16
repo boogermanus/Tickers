@@ -10,20 +10,19 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {TickerService} from '../../services/ticker.service';
 
 @Component({
-  selector: 'app-ticker',
-  standalone: true,
-  imports: [
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
-    FormsModule
-  ],
-  templateUrl: './ticker.component.html',
-  styleUrl: './ticker.component.scss'
+    selector: 'app-ticker',
+    imports: [
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
+        FormsModule
+    ],
+    templateUrl: './ticker.component.html',
+    styleUrl: './ticker.component.scss'
 })
 export class TickerComponent {
 
